@@ -32,11 +32,11 @@ class Ai:
         self.asked=quest
         self.path=file
     def process(self):
-        gemini_api_key = os.environ.get("GEMINI_API_KEY")
+        gemini_api_key = os.environ.get("GEMINI_API_KEY", "").strip().strip("'\"")
         if not gemini_api_key:
             raise ValueError("GEMINI_API_KEY environment variable is not configured.")
         client = genai.Client(api_key=gemini_api_key)
-        model = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash')
+        model = os.environ.get('GEMINI_MODEL', 'gemini-3.6-flash')
         role = self.tune()
         uploaded_file = client.files.upload(file=self.path)
 
