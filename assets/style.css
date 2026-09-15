@@ -1,0 +1,16 @@
+.header {
+  background-color: #f59e0b;
+}
+.box {
+  display: flex;
+  justify-content: center;
+}
+.box,
+h1 {
+  text-align: center;
+}
+.header,
+h2 {
+  text-align: center;
+  padding-bottom: 0.1px;
+}

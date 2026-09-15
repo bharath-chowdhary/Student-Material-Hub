@@ -1,0 +1,152 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="h_content">
+        <div class="box">
+          <img
+            src="{% static './QISCET_logo_transparent.png' %}"
+            width="130px"
+          />
+        </div>
+        <div class="box">
+          <h1>QIS College of Engineering And Technology</h1>
+        </div>
+        <h2>Student Material Hub</h2>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Material's Portal</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'sections'%}"
+                >Sections</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true"
+                >Unit Materials</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'register'%}">Register</a>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+    
+    <!--Up to Here Common for all Web pages-->
+
+    <!--Form Code-->
+    <div class="container mt-3 text-end">
+      <a href="{% url 'sections' %}" class="btn btn-primary">
+        📚 Home
+      </a>
+    </div>
+    <div class="reg">
+      <form action="{% url 'register' %}" method="post">
+        {% csrf_token %} {% if success %}
+        <div class="logo">
+          <div class="pic"><p>&#128271;</p></div>
+        
+          <div class="pic1">
+            <h6>{{success}}</h6>
+          </div>
+        </div>
+        
+        {%else%}
+        <h6>Become Admin for your section, register here!.</h6>
+        <h6>Creates Section automatically. If section not exists.</h6>
+        {% endif %}
+        <!--First Filed-->
+
+        <div class="mb-3">
+          <label for="unmame" class="form-label">Username:</label>
+          <br>
+          <input
+            type="text"
+            class="form-control"
+            id="unname"
+            name="name"
+            placeholder="Enter Lower Class Letter's Only, Example: 'a','b','c"
+          />
+        </div>
+
+        <!--Second Filed-->
+
+        <div class="mb-3">
+          <label for="unname" class="form-lablel">College Mail Address:</label>
+          <br>
+          <input
+            type="email"
+            class="form-control"
+            id="uemail"
+            name="email"
+            aria-describedby="emailhelp"
+            name="email"
+            placeholder="Enter College Mail Address"
+          />
+          <div id="emailHelp" class="form-text">
+            Your email will never be shared with anyone else.
+          </div>
+        </div>
+
+        <!--Third Filed-->
+
+        <div class="mb-3">
+          <label for="Section" class="form-label">Section:</label>
+          <br>
+          <input
+            type="text"
+            class="form-control"
+            id="Section"
+            name="section"
+            placeholder="CSE-1"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn">Submit</button>
+        
+          {% if message %}
+    <div class="alert alert-danger mt-3">
+        <strong>Your Admin Request Failed!</strong>
+        {{ message }}
+    </div>
+{% endif %}
+        </div>
+        
+      </form>
+    </div>
+  </body>
+</html>

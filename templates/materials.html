@@ -1,0 +1,220 @@
+{% load static tz%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="h_content">
+        <div class="box">
+          <img
+            src="{% static './QISCET_logo_transparent.png' %}"
+            width="130px"
+          />
+        </div>
+        <div class="box">
+          <h1>QIS College of Engineering And Technology</h1>
+        </div>
+        <h2>Student Material Hub</h2>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Material's Portal</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'sections'%}"
+                >Sections</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active disabled" aria-disabled="true"
+                >Unit Materials</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'register'%}"
+                >Register</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                aria-current="page"
+                href="{% url 'addmaterial'%}?subject="
+                id="addmat"
+                >Add Study Material</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-3 text-end">
+      <a href="{% url 'sections' %}" class="btn btn-primary"> 📚 Home </a>
+    </div>
+    <div class="d-flex" id="sms">
+      {% if materials%} {% for material in materials%}
+      <div class="card" id="clg">
+        <h5 class="card-header">
+          <div class="d-flex justify-content-between">
+            <span id="sub">{{material.subject}}</span>
+            <button
+              class="btn btn-dark"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvas"
+              aria-controls="offcanvasExample"
+            >
+              Ask AI
+            </button>
+            <div
+              class="offcanvas offcanvas-end"
+              data-bs-backdrop="static"
+              tabindex="-1"
+              id="offcanvas"
+              aria-labelledby="offcanvasExampleLabel"
+            >
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                  AI Query Engine
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="offcanvas"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="p-1 m-1">
+                <p class="h5">
+                  Ask Your Doubts, Questions and Queries Related to the
+                  {{material.name}}.
+                </p>
+              </div>
+              <div class="offcanvas-body">
+                <div
+                  class="container-fluid overflow-auto h-100 bg-info-subtle rounded-1 offcanvas-body"
+                  data-bs-scroll="true"
+                >
+                  {% if response %}
+                  <p class="h6">{{ response|safe }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="container-sm mb-3">
+                <form method="post" class="d-flex justify-content-around">
+                  {% csrf_token %}
+                  <input
+                    type="hidden"
+                    name="path"
+                    value="{{material.file.url}}"
+                  />
+                  <input
+                    type="text"
+                    class="form-control rounded-pill bg-success-subtle m-1"
+                    name="query"
+                  />
+                  <button
+                    id="ask"
+                    type="submit"
+                    class="btn bg-success rounded-circle"
+                  >
+                    Ask
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </h5>
+        <div class="card-body">
+          <h5 class="card-title">{{material.name}}</h5>
+          <p class="card-text">
+            <b>Upload Date: {{material.uploaded_at|localtime}}</b> <br />Read or
+            Upload Materials. With Support to Additional Content Upload are
+            Delete By Admin/CR's Of the Sections.
+          </p>
+          <div class="d-flex justify-content-between">
+            <a href="{{material.file.url}}" class="btn btn-primary">Download</a>
+            <div class="dropdown">
+              <a
+                class="btn btn-danger dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Delete
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <form class="d-flex" action="" method="post">
+                    {% csrf_token %}
+                    <input
+                      type="hidden"
+                      class="hide"
+                      id="pk"
+                      value="{{material.id}}"
+                      name="pk"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter Username[ADMIN]"
+                      name="name"
+                    />
+                    <button class="btn btn-danger" type="submit" id="cl">
+                      Delete
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p class="hide" id="sub">{{subject}}</p>
+      <h4 class="Notupload">
+        Study Materials are Not Uploaded. <br>To Add<a href="{% url 'addmaterial'%}?subject={{subject}}"> Click Here </a></b>
+      </h4>
+      {% endif %}
+    </div>
+    <script>
+      const sub = document.getElementById("sub").textContent;
+      const am = document.getElementById("addmat");
+      am.href += sub;
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

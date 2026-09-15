@@ -1,0 +1,137 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="h_content">
+        <div class="box">
+          <img
+            src="{% static './QISCET_logo_transparent.png' %}"
+            width="130px"
+          />
+        </div>
+        <div class="box">
+          <h1>QIS College of Engineering And Technology</h1>
+        </div>
+        <h2>Student Material Hub</h2>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="">Material's Portal</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'sections'%}"
+                >Sections</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true"
+                >Unit Materials</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'register'%}"
+                >Register</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-3 text-end">
+      <a href="{% url 'sections' %}" class="btn btn-primary"> 📚 Home </a>
+    </div>
+    <div class="reg">
+      <form
+        class="was-validated"
+        action=""
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <h4 id="sub">{{sub}}</h4>
+        {% if success %}
+        <h4>{{success}}</h4>
+        {% endif %} {% csrf_token %}
+        <div class="mb-3">
+          <label for="uname" class="form-label">Username[ADMIN]:</label>
+          <input
+            type="text"
+            id="uname"
+            class="form-control"
+            name="uname"
+            required
+          />
+          <div class="invalid-feedback">Please Enter Your Username[ADMIN]</div>
+        </div>
+        <div class="mb-3">
+          <label for="matname" class="form-label">Material Name:</label>
+          <input
+            type="text"
+            id="matname"
+            class="form-control"
+            name="name"
+            required
+          />
+          <div class="invalid-feedback">Please Enter Material Name</div>
+        </div>
+        <div class="mb-3">
+          <label for="fm" class="form-label">Select Material</label>
+          <input
+            type="file"
+            class="form-control"
+            aria-label="fm"
+            name="file"
+            required
+          />
+          <div class="invalide-feedback">
+            Please upload your Material by 'clicking here' or use 'drag and
+            drop'.
+          </div>
+        </div>
+        <!-- <h6 id="sub">{{ sub }}</h6> -->
+        <a href="{% url 'materials'%}?subject=" id="bk"
+          ><button class="btn btn-danger" type="button">Back</button></a
+        >
+        <button type="submit" class="btn btn-primary" id="btn">Upload</button>
+        {%if message %}
+        <h4 align="center">Your Upload is Failed !<br />{{message}}</h4>
+        {%endif%}
+      </form>
+      <script>
+        const bk = document.getElementById("bk");
+        bk.href += document.getElementById("sub").textContent;
+      </script>
+    </div>
+  </body>
+</html>

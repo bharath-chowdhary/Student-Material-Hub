@@ -1,0 +1,41 @@
+{% load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class Member</title>
+  </head>
+  <body>
+    <div class="header">
+        <div class="h_content">
+            <div class="box"><img src="{% static './QISCET_logo_transparent.png' %}" width="130px"></div>
+            <div class="box">
+              <h1>QIS College of Engineering And Technology</h1>
+            </div>
+            <h2>Student Materail Hub</h2>
+        </div>
+    </div>
+    <div class="container mt-3 text-end">
+      <a href="{% url 'sections' %}" class="btn btn-primary">
+        📚 Home
+      </a>
+    </div>
+    <div class="body">
+        <h2>Uploaded Documents</h2>
+        {% for document in documents %}
+          <p>
+            {{document.file.name}}
+            <a href="{{document.file.url }}" download>
+              Downlad
+            </a>
+          </p>
+        {% empty %}
+        <p>No documents uploaded yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+    </body>
+  </body>
+</html>
